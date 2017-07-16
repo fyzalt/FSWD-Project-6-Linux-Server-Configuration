@@ -185,4 +185,117 @@ Username: grader
 		$ sudo pip install oauth2client
 		$ sudo pip install requests
 		$ sudo pip install httplib2
+		
+### Step 9 -Configure Apache2 to serve the app
 
+1. Create a virtual host configuration file 
+	
+		$ sudo nano /etc/apache2/sites-available/catalog.conf
+		
+2. Filled in the file with the following content
+
+```
+	<VirtualHost *:80>
+	    ServerName 50.112.78.33
+	    ServerAlias ec2-50-112-78-33.us-west-2.compute.amazonaws.com
+	    ServerAdmin fanyinze@gmail.com
+	    WSGIDaemonProcess catalog python-path=/var/www/catalog:/var/www/catalog/venv/lib/python2.7/site-packages
+	    WSGIProcessGroup catalog
+	    WSGIScriptAlias / /var/www/catalog/catalog.wsgi
+	    <Directory /var/www/catalog/catalog/>
+		Order allow,deny
+		Allow from all
+	    </Directory>
+	    Alias /static /var/www/catalog/catalog/static
+	    <Directory /var/www/catalog/catalog/static/>
+		Order allow,deny
+		Allow from all
+	    </Directory>
+	    ErrorLog ${APACHE_LOG_DIR}/error.log
+	    LogLevel warn
+	    CustomLog ${APACHE_LOG_DIR}/access.log combined
+	</VirtualHost>
+
+```
+3. Disable the default virtual host
+
+		$ sudo a2dissite 000-default.conf
+		
+4. Enable the catalog app virtual host
+
+		$ sudo a2ensite catalog-app.conf
+		
+### Step 10 -Install and configure PostgreSQL
+
+1. Install PostgreSQL
+
+		$ sudo apt-get install postgresql postgresql-contrib
+		
+2. Switch to user 'postgres' which is automatically created for you
+
+		$ sudo su - postgres
+		
+3. Connect to database 
+
+		$ psql
+		
+4. Create a new role
+
+		# CREATE USER catalog WITH PASSWORD 'password';
+		# ALTER USER catalog CREATEDB;
+		
+5. Create database named catalog
+
+		# CREATE DATABASE catalog WITH OWNER catalog;
+		
+6. Connect to databse and revike all rights
+
+		# \c catalog
+		# REVOKE ALL ON SCHEMA public FROM public;
+		
+7. Lock down the permissions to only let catalog role create tables	
+
+		# GRANT ALL ON SCHEMA public TO catalog;
+		
+8. Exit PostgreSQL
+
+9. Update database connection in catalog application(catalog.py database_populate.py etc)
+
+```
+	engine = create_engine('postgresql://catalog:password@localhost/catalog')
+```
+10. Specify the absolute path for client_secrets.json file in application
+
+Change
+    
+```
+	CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
+	
+```
+
+to
+	
+```
+	CLIENT_ID = json.loads(open(r'/var/www/catalog/catalog/client_secrets.json', 'r').read())['web']['client_id']
+	
+```
+
+Also change
+	
+```
+	oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+```
+
+to
+	
+```
+	oauth_flow = flow_from_clientsecrets(r'/var/www/catalog/catalog/client_secrets.json', scope='')
+```
+
+11. Setup and populate databse
+
+```
+	python /var/www/catalog/catalog/database_setup.py
+	python /var/www/catalog/catalog/database_populate.py
+```
+		
