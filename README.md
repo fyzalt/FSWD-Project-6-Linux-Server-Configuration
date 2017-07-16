@@ -310,3 +310,19 @@ to
 1. Run the following command
 
 		 $ sudo service apache2 restart 
+
+## Third Party Resource
+
+Udacity Forum
+
+https://discussions.udacity.com/t/client-secret-json-not-found-error/34070
+https://discussions.udacity.com/t/internal-server-error-after-changing-to-catalog-wsgi/248674/2
+https://discussions.udacity.com/t/oath-error-origin-mismatch/221485/19
+
+Flask Documentation
+
+http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/
+
+Github Repo
+
+https://github.com/iliketomatoes/linux_server_configuration/blob/master/README.md
