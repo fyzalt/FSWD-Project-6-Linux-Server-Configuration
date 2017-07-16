@@ -298,4 +298,15 @@ to
 	python /var/www/catalog/catalog/database_setup.py
 	python /var/www/catalog/catalog/database_populate.py
 ```
-		
+
+### Step 11 -Update OAuth authorized JavaScript origins and redirect URI
+
+1. Go to google developer console and add new url into Authorized JavaScript origins and Authorized redirect URIs
+
+2. Download new json file, copy its content and paste into your previous old client_secrets.json which located at /var/www/catlog/catalog/client_secrets.json
+
+### Step 12 -Restart Apache
+
+1. Run the following command
+
+		 $ sudo service apache2 restart 
