@@ -316,7 +316,9 @@ to
 Udacity Forum
 
 https://discussions.udacity.com/t/client-secret-json-not-found-error/34070
+
 https://discussions.udacity.com/t/internal-server-error-after-changing-to-catalog-wsgi/248674/2
+
 https://discussions.udacity.com/t/oath-error-origin-mismatch/221485/19
 
 Flask Documentation
