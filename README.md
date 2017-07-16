@@ -1,9 +1,9 @@
-## Linx-Server-Configuration
-### About this Project
+# Linx-Server-Configuration
+## About this Project
 
 A baseline installation of a Linux server and prepare it to host [Item Catalog App](https://github.com/Fyzeey/FSWD-Project-4-Item-Catalog) from previous project.
 
-### Server Details
+## Server Details
 
 IP address: 50.112.78.33
 
@@ -13,8 +13,8 @@ URL: http://ec2-50-112-78-33.us-west-2.compute.amazonaws.com
 
 Username: grader
 
-### Configuration Steps
-#### Step 1 -SSH into server as the user ubuntu
+## Configuration Steps
+### Step 1 -SSH into server as the user ubuntu
 
 1. Download Private Key from https://lightsail.aws.amazon.com/ls/webapp/account/keys  
 2. Move the private key file into the folder ~/.ssh 	
@@ -26,7 +26,7 @@ Username: grader
 
 		$ ssh -i ~/.ssh/private_key.pem ubuntu@50.112.78.33
 
-#### Step 2 -User Management
+### Step 2 -User Management
 
 1. Create a new user name grader
 
@@ -65,15 +65,29 @@ Username: grader
 
 		$ sudo nano /etc/ssh/sshd-config
 		
-   Find 'Port 22' and change it to 'Port 2200'
+	Find 'Port 22' and change it to 'Port 2200'
 		
 6. Disable remote login of root user
 
-   In same file, change the value PermitRootLogin to no
+	In same file, change the value PermitRootLogin to no
 		
 7. Restart ssh service
 	
 		$ sudo service sshd restart
-		
+
+### Step 3 -Security
+
+1. Uncomplicated Firewall Set up
+	
+	Allow incoming connections for SSH (port 2200), HTTP (port 80) and  NTP (port 123)
+	
+		$ sudo ufw allow 2200/tcp.
+		$ sudo ufw allow 80/tcp.
+		$ sudo ufw allow 123/udp.
+		$ sudo ufw enable.
+
+   
+
+
 		
 		
