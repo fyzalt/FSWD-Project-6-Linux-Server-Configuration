@@ -1,4 +1,4 @@
-# Linx-Server-Configuration
+# Linux-Server-Configuration
 ## About this Project
 
 A baseline installation of a Linux server and prepare it to host [Item Catalog App](https://github.com/Fyzeey/FSWD-Project-4-Item-Catalog) from previous project.
