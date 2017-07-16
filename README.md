@@ -85,9 +85,104 @@ Username: grader
 		$ sudo ufw allow 80/tcp.
 		$ sudo ufw allow 123/udp.
 		$ sudo ufw enable.
+		
+2. Key-based SSH authentication enforcement.
 
-   
+	PasswordAuthentication in the /etc/ssh/sshd-config file is already set to no by default	
+	
+### Step 4 -Update Applications
 
+1. Update package source list:
 
+		$ sudo apt-get update
+
+2. Upgrade all the application:
+
+		$ sudo apt-get upgrade
 		
 		
+### Step 5 -Configure the local timezone to UTC
+
+1. Open time configuration dialog 
+
+		$ sudo dpkg-reconfigure tzdata
+		
+2. Follow the instruction in the terminal to set up time zone
+
+
+### Step 6 -Install Apache, mod_wsgi and git
+
+1. Install Apache
+
+		$ sudo apt-get install apache2
+		
+2. Install mod_wsgi
+
+		$ sudo apt-get install libapache2-mod-wsgi
+		
+3. Restart Apache
+
+		$ sudo service apache2 restart
+		
+4. Install Git
+
+		$ sudo apt-get install git
+		
+### Step 7 -Clone Item Catalog App from Github Repo 
+
+1. Create a directory named catalog under /var/www.
+
+		$ sudo mkdir catalog
+		
+2. Change the owner of catalog directory
+
+		$ sudo chown -R grader:grader catalog
+		
+3. Clone catalog repository into catalog directory
+
+		$ git clone https://github.com/Fyzeey/FSWD-Project-4-Item-Catalog.git
+		
+	Make your repository name does not contain "-", it will cause invalid syntax error.
+	I renamed my directory from "Item-Catalog" to "catalog"
+	
+		$ mv Item-Catalog catalog
+	
+		
+4. Create catalog.wsgi file in the same directory and fill in with following content
+
+```
+	import sys
+	import logging
+	logging.basicConfig(stream=sys.stderr)
+	sys.path.insert(0,"/var/www/catalog/catalog")
+
+	from catalog import app as application
+	application.secret_key = 'Secret_Key(fill your own secret here)'
+	
+```
+
+### Step 8 -Install virtualenv and other necessary applications
+
+1. Install pip , virtualenv (in /var/www/catalog)
+
+		$ sudo apt-get install python-pip
+		$ sudo pip install virtualenv
+		
+2. Create a new virtual environment
+		
+		$ sudo virtualenv venv
+		
+3. Activate the virtual environment and change venv directory's permission.
+
+		$ source venv/bin/activate
+		$ sudo chmod -R 777 venv
+		
+4. Install other necessary application
+
+		$ sudo pip install flask 
+		$ sudo pip install psycopg2 
+		$ sudo pip install sqlalchemy
+		$ sudo pip install oauth2client
+		$ sudo pip install requests
+		$ sudo pip install httplib2
+
