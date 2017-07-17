@@ -310,7 +310,27 @@ to
 1. Run the following command
 
 		 $ sudo service apache2 restart 
+		 
+## Something Extra
 
+1. Automatic Updates
+	Install unattended-upgrades package
+	
+		$sudo apt-get install unattended-upgrades
+		
+	Enable unattended-upgrades
+	
+		$sudo dpkg-reconfigure --priority=low unattended-upgrades
+		
+	Edit /etc/apt/apt.conf.d/10periodic config file as follows
+	```
+	APT::Periodic::Update-Package-Lists "1";
+	APT::Periodic::Download-Upgradeable-Packages "1";
+	APT::Periodic::AutocleanInterval "7";
+	APT::Periodic::Unattended-Upgrade "1";
+	```
+	The package list will update and upgrade on a daily basis.
+	
 ## Third Party Resource
 
 Udacity Forum
@@ -325,6 +345,12 @@ Flask Documentation
 
 http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/
 
+Ubuntu
+
+https://help.ubuntu.com/community/AutomaticSecurityUpdates
+
 Github Repo
+
+https://github.com/SteveWooding/fullstack-nanodegree-linux-server-config
 
 https://github.com/iliketomatoes/linux_server_configuration/blob/master/README.md
